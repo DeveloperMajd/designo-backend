@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_components_info_highlights",
+  "info": {
+    "displayName": "InfoHighlights",
+    "icon": "chartBubble",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Elements": {
+      "type": "component",
+      "repeatable": true,
+      "component": "custom-types.info-highlight"
+    }
+  }
+}

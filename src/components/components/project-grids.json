@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_components_project_grids",
+  "info": {
+    "displayName": "ProjectGrids",
+    "icon": "grid",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Elements": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.projects-grid",
+      "max": 3
+    },
+    "Type": {
+      "type": "enumeration",
+      "enum": [
+        "two-grid",
+        "three-grid"
+      ],
+      "default": "three-grid",
+      "required": true
+    }
+  }
+}

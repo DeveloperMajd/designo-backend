@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_custom_types_locations",
+  "info": {
+    "displayName": "Location",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "city": {
+      "type": "string"
+    },
+    "address": {
+      "type": "blocks"
+    },
+    "phone": {
+      "type": "biginteger"
+    },
+    "Email": {
+      "type": "email"
+    },
+    "Longitude": {
+      "type": "biginteger"
+    },
+    "Altitude": {
+      "type": "biginteger"
+    },
+    "Position": {
+      "type": "enumeration",
+      "enum": [
+        "img-left",
+        "img-right"
+      ]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_custom_types_links",
+  "info": {
+    "displayName": "link",
+    "description": "",
+    "icon": "attachment"
+  },
+  "options": {},
+  "attributes": {
+    "url": {
+      "type": "string"
+    },
+    "target": {
+      "type": "enumeration",
+      "enum": [
+        "_self",
+        "_blank"
+      ],
+      "default": "_blank",
+      "required": false
+    },
+    "title": {
+      "type": "string"
+    }
+  }
+}

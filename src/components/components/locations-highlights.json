@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_components_locations_highlights",
+  "info": {
+    "displayName": "LocationsHighlights",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Elements": {
+      "type": "component",
+      "repeatable": true,
+      "component": "custom-types.locations-highlight",
+      "min": 0,
+      "max": 3
+    }
+  }
+}

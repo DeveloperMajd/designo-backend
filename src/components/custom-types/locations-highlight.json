@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_custom_types_locations_highlights",
+  "info": {
+    "displayName": "LocationsHighlight",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "City": {
+      "type": "string"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Tag": {
+      "type": "string"
+    }
+  }
+}

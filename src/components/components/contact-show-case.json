@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_components_contact_show_cases",
+  "info": {
+    "displayName": "ContactShowCase",
+    "icon": "discuss",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Content": {
+      "type": "text"
+    }
+  }
+}

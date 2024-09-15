@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_components_page_banners",
+  "info": {
+    "displayName": "PageBanner",
+    "icon": "expand"
+  },
+  "options": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Content": {
+      "type": "text"
+    }
+  }
+}

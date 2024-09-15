@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pages",
+  "info": {
+    "singularName": "page",
+    "pluralName": "pages",
+    "displayName": "Page",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Slug": {
+      "type": "string"
+    },
+    "Title": {
+      "type": "string"
+    },
+    "Module": {
+      "type": "dynamiczone",
+      "components": [
+        "components.info-highlights",
+        "components.contact-show-case",
+        "components.homepage-banner",
+        "components.contact-form",
+        "components.locations-highlights",
+        "components.page-banner",
+        "components.projects-cards",
+        "components.text-media-banner",
+        "components.text-media",
+        "components.project-grids"
+      ]
+    }
+  }
+}

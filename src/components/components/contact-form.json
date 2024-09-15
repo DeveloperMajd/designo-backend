@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_components_contact_forms",
+  "info": {
+    "displayName": "ContactForm",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Content": {
+      "type": "text"
+    }
+  }
+}
