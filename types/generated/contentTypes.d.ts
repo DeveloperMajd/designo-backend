@@ -893,8 +893,10 @@ export interface ApiContactContact extends Schema.SingleType {
     draftAndPublish: true;
   };
   attributes: {
-    phone: Attribute.String &
-      Attribute.CustomField<'plugin::strapi-phone-validator.phone'>;
+    email: Attribute.Email;
+    address: Attribute.Text;
+    socials: Attribute.Component<'custom-types.social', true>;
+    phone: Attribute.BigInteger;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

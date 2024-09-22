@@ -12,9 +12,19 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "email": {
+      "type": "email"
+    },
+    "address": {
+      "type": "text"
+    },
+    "socials": {
+      "type": "component",
+      "repeatable": true,
+      "component": "custom-types.social"
+    },
     "phone": {
-      "type": "customField",
-      "customField": "plugin::strapi-phone-validator.phone"
+      "type": "biginteger"
     }
   }
 }

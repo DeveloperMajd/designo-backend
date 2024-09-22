@@ -16,8 +16,21 @@ export default [
         directives: {
           "connect-src": ["'self'", "https:"],
           "script-src": ["https://cdnjs.cloudflare.com"],
-          "media-src": ["https://cdnjs.cloudflare.com"],
-          "img-src": ["https://cdnjs.cloudflare.com"],
+          "media-src": [
+            "https://cdnjs.cloudflare.com",
+            "data:",
+            "blob:",
+            "filesystem:",
+            "mediastream:",
+            "http://localhost:1337",
+          ],
+          "img-src": [
+            "https://cdnjs.cloudflare.com",
+            "data:",
+            "blob:",
+            "filesystem:",
+            "http://localhost:1337",
+          ],
         },
       },
     },
