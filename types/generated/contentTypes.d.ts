@@ -915,34 +915,30 @@ export interface ApiContactContact extends Schema.SingleType {
   };
 }
 
-export interface ApiGlobalGlobal extends Schema.CollectionType {
-  collectionName: 'globals';
+export interface ApiLabelLabel extends Schema.CollectionType {
+  collectionName: 'labels';
   info: {
-    singularName: 'global';
-    pluralName: 'globals';
-    displayName: 'Global';
+    singularName: 'label';
+    pluralName: 'labels';
+    displayName: 'Labels';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    phone: Attribute.BigInteger;
-    email: Attribute.Email;
-    socials: Attribute.Component<'custom-types.social', true>;
-    Label: Attribute.String;
-    address: Attribute.Text;
+    label: Attribute.Component<'label.label'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::global.global',
+      'api::label.label',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::global.global',
+      'api::label.label',
       'oneToOne',
       'admin::user'
     > &
@@ -1009,7 +1005,7 @@ declare module '@strapi/types' {
       'plugin::menus.menu': PluginMenusMenu;
       'plugin::menus.menu-item': PluginMenusMenuItem;
       'api::contact.contact': ApiContactContact;
-      'api::global.global': ApiGlobalGlobal;
+      'api::label.label': ApiLabelLabel;
       'api::page.page': ApiPagePage;
     }
   }

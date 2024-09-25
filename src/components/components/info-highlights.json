@@ -10,7 +10,8 @@
     "Elements": {
       "type": "component",
       "repeatable": true,
-      "component": "custom-types.info-highlight"
+      "component": "custom-types.info-highlight",
+      "max": 3
     }
   }
 }

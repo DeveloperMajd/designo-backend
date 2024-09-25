@@ -48,7 +48,13 @@ export interface ComponentsInfoHighlights extends Schema.Component {
     description: '';
   };
   attributes: {
-    Elements: Attribute.Component<'custom-types.info-highlight', true>;
+    Elements: Attribute.Component<'custom-types.info-highlight', true> &
+      Attribute.SetMinMax<
+        {
+          max: 3;
+        },
+        number
+      >;
   };
 }
 
@@ -182,7 +188,7 @@ export interface CustomTypesInfoHighlight extends Schema.Component {
   attributes: {
     title: Attribute.String;
     content: Attribute.Text;
-    image: Attribute.Media;
+    Image: Attribute.Media;
   };
 }
 
@@ -247,6 +253,19 @@ export interface CustomTypesSocial extends Schema.Component {
   };
 }
 
+export interface LabelLabel extends Schema.Component {
+  collectionName: 'components_label_labels';
+  info: {
+    displayName: 'Label';
+    icon: 'file';
+    description: '';
+  };
+  attributes: {
+    Name: Attribute.String;
+    Value: Attribute.String;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
@@ -266,6 +285,7 @@ declare module '@strapi/types' {
       'custom-types.location': CustomTypesLocation;
       'custom-types.locations-highlight': CustomTypesLocationsHighlight;
       'custom-types.social': CustomTypesSocial;
+      'label.label': LabelLabel;
     }
   }
 }

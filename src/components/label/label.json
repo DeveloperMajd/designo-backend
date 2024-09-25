@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_label_labels",
+  "info": {
+    "displayName": "Label",
+    "icon": "file",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Value": {
+      "type": "string"
+    }
+  }
+}
