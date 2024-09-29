@@ -89,6 +89,18 @@ export interface ComponentsPageBanner extends Schema.Component {
   };
 }
 
+export interface ComponentsProjectCards extends Schema.Component {
+  collectionName: 'components_components_project_cards';
+  info: {
+    displayName: 'ProjectCards';
+    icon: 'apps';
+    description: '';
+  };
+  attributes: {
+    Elements: Attribute.Component<'single-elements.projects-cards', true>;
+  };
+}
+
 export interface ComponentsProjectGrids extends Schema.Component {
   collectionName: 'components_components_project_grids';
   info: {
@@ -97,7 +109,7 @@ export interface ComponentsProjectGrids extends Schema.Component {
     description: '';
   };
   attributes: {
-    Elements: Attribute.Component<'components.projects-grid', true> &
+    Elements: Attribute.Component<'single-elements.projects-grid', true> &
       Attribute.SetMinMax<
         {
           max: 3;
@@ -107,41 +119,6 @@ export interface ComponentsProjectGrids extends Schema.Component {
     Type: Attribute.Enumeration<['two-grid', 'three-grid']> &
       Attribute.Required &
       Attribute.DefaultTo<'three-grid'>;
-  };
-}
-
-export interface ComponentsProjectsCards extends Schema.Component {
-  collectionName: 'components_components_projects_cards';
-  info: {
-    displayName: 'ProjectsCards';
-    icon: 'archive';
-    description: '';
-  };
-  attributes: {
-    Title: Attribute.String;
-    Content: Attribute.Text;
-    Image: Attribute.Media;
-    Link: Attribute.Component<'custom-types.link'>;
-  };
-}
-
-export interface ComponentsProjectsGrid extends Schema.Component {
-  collectionName: 'components_components_projects_grids';
-  info: {
-    displayName: 'ProjectsGrid';
-    icon: 'apps';
-    description: '';
-  };
-  attributes: {
-    Title: Attribute.String;
-    Image: Attribute.Media;
-    ImageMobile: Attribute.Media;
-    ImageTablet: Attribute.Media;
-    page: Attribute.Relation<
-      'components.projects-grid',
-      'oneToOne',
-      'api::page.page'
-    >;
   };
 }
 
@@ -266,6 +243,41 @@ export interface LabelLabel extends Schema.Component {
   };
 }
 
+export interface SingleElementsProjectsCards extends Schema.Component {
+  collectionName: 'components_components_projects_cards';
+  info: {
+    displayName: 'ProjectsCard';
+    icon: 'grid';
+    description: '';
+  };
+  attributes: {
+    Title: Attribute.String;
+    Content: Attribute.Text;
+    Image: Attribute.Media;
+    link: Attribute.Component<'custom-types.link'>;
+  };
+}
+
+export interface SingleElementsProjectsGrid extends Schema.Component {
+  collectionName: 'components_components_projects_grids';
+  info: {
+    displayName: 'ProjectsGrid';
+    icon: 'grid';
+    description: '';
+  };
+  attributes: {
+    Title: Attribute.String;
+    Image: Attribute.Media;
+    ImageMobile: Attribute.Media;
+    ImageTablet: Attribute.Media;
+    page: Attribute.Relation<
+      'single-elements.projects-grid',
+      'oneToOne',
+      'api::page.page'
+    >;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
@@ -275,9 +287,8 @@ declare module '@strapi/types' {
       'components.info-highlights': ComponentsInfoHighlights;
       'components.locations-highlights': ComponentsLocationsHighlights;
       'components.page-banner': ComponentsPageBanner;
+      'components.project-cards': ComponentsProjectCards;
       'components.project-grids': ComponentsProjectGrids;
-      'components.projects-cards': ComponentsProjectsCards;
-      'components.projects-grid': ComponentsProjectsGrid;
       'components.text-media-banner': ComponentsTextMediaBanner;
       'components.text-media': ComponentsTextMedia;
       'custom-types.info-highlight': CustomTypesInfoHighlight;
@@ -286,6 +297,8 @@ declare module '@strapi/types' {
       'custom-types.locations-highlight': CustomTypesLocationsHighlight;
       'custom-types.social': CustomTypesSocial;
       'label.label': LabelLabel;
+      'single-elements.projects-cards': SingleElementsProjectsCards;
+      'single-elements.projects-grid': SingleElementsProjectsGrid;
     }
   }
 }

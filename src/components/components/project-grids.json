@@ -10,7 +10,7 @@
     "Elements": {
       "type": "component",
       "repeatable": true,
-      "component": "components.projects-grid",
+      "component": "single-elements.projects-grid",
       "max": 3
     },
     "Type": {

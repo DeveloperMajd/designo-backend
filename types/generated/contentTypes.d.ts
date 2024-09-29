@@ -968,10 +968,11 @@ export interface ApiPagePage extends Schema.CollectionType {
         'components.contact-form',
         'components.locations-highlights',
         'components.page-banner',
-        'components.projects-cards',
+        'single-elements.projects-cards',
         'components.text-media-banner',
         'components.text-media',
-        'components.project-grids'
+        'components.project-grids',
+        'components.project-cards'
       ]
     >;
     createdAt: Attribute.DateTime;

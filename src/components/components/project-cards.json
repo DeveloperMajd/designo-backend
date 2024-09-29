@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_components_project_cards",
+  "info": {
+    "displayName": "ProjectCards",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Elements": {
+      "type": "component",
+      "repeatable": true,
+      "component": "single-elements.projects-cards"
+    }
+  }
+}
