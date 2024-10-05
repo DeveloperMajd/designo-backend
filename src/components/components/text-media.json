@@ -7,7 +7,7 @@
   },
   "options": {},
   "attributes": {
-    "Tilte": {
+    "Title": {
       "type": "string"
     },
     "Content": {

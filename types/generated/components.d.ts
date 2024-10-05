@@ -146,7 +146,7 @@ export interface ComponentsTextMedia extends Schema.Component {
     description: '';
   };
   attributes: {
-    Tilte: Attribute.String;
+    Title: Attribute.String;
     Content: Attribute.Text;
     Image: Attribute.Media;
     ImageMobile: Attribute.Media;
