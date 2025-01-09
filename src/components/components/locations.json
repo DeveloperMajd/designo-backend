@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_components_locations",
+  "info": {
+    "displayName": "Locations",
+    "icon": "globe",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "locations": {
+      "type": "component",
+      "repeatable": true,
+      "component": "custom-types.location"
+    }
+  }
+}

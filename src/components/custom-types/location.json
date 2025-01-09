@@ -10,9 +10,6 @@
     "city": {
       "type": "string"
     },
-    "address": {
-      "type": "blocks"
-    },
     "phone": {
       "type": "biginteger"
     },
@@ -20,10 +17,10 @@
       "type": "email"
     },
     "Longitude": {
-      "type": "biginteger"
+      "type": "float"
     },
-    "Altitude": {
-      "type": "biginteger"
+    "Latitude": {
+      "type": "float"
     },
     "Position": {
       "type": "enumeration",
@@ -31,6 +28,12 @@
         "img-left",
         "img-right"
       ]
+    },
+    "Tag": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
     }
   }
 }

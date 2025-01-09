@@ -77,6 +77,18 @@ export interface ComponentsLocationsHighlights extends Schema.Component {
   };
 }
 
+export interface ComponentsLocations extends Schema.Component {
+  collectionName: 'components_components_locations';
+  info: {
+    displayName: 'Locations';
+    icon: 'globe';
+    description: '';
+  };
+  attributes: {
+    locations: Attribute.Component<'custom-types.location', true>;
+  };
+}
+
 export interface ComponentsPageBanner extends Schema.Component {
   collectionName: 'components_components_page_banners';
   info: {
@@ -193,12 +205,13 @@ export interface CustomTypesLocation extends Schema.Component {
   };
   attributes: {
     city: Attribute.String;
-    address: Attribute.Blocks;
     phone: Attribute.BigInteger;
     Email: Attribute.Email;
-    Longitude: Attribute.BigInteger;
-    Altitude: Attribute.BigInteger;
+    Longitude: Attribute.Float;
+    Latitude: Attribute.Float;
     Position: Attribute.Enumeration<['img-left', 'img-right']>;
+    Tag: Attribute.String;
+    address: Attribute.Text;
   };
 }
 
@@ -286,6 +299,7 @@ declare module '@strapi/types' {
       'components.homepage-banner': ComponentsHomepageBanner;
       'components.info-highlights': ComponentsInfoHighlights;
       'components.locations-highlights': ComponentsLocationsHighlights;
+      'components.locations': ComponentsLocations;
       'components.page-banner': ComponentsPageBanner;
       'components.project-cards': ComponentsProjectCards;
       'components.project-grids': ComponentsProjectGrids;

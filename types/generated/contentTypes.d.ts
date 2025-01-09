@@ -972,7 +972,8 @@ export interface ApiPagePage extends Schema.CollectionType {
         'components.text-media-banner',
         'components.text-media',
         'components.project-grids',
-        'components.project-cards'
+        'components.project-cards',
+        'components.locations'
       ]
     >;
     createdAt: Attribute.DateTime;
