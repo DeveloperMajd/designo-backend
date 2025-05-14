@@ -32,7 +32,7 @@ export default ({ env }) => {
         database: env("DATABASE_NAME", "designodb"),
         user: env("DATABASE_USERNAME", "designo_user"),
         password: env("DATABASE_PASSWORD", "iDFj0QYS2V2ngCswboatfG5cHmb9HNVj"),
-        ssl: env.bool("DATABASE_SSL", false)
+        ssl: env.bool("DATABASE_SSL", true)
           ? { rejectUnauthorized: false }
           : false,
         schema: env("DATABASE_SCHEMA", "public"),
