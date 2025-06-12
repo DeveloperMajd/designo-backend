@@ -7,7 +7,7 @@ export default [
       origin: [
         'https://designo-frontend.vercel.app',   
         'https://designo-backend.developermajd.com',
- 	'https://designo-frontend.developermajd.com',
+ 	      'https://designo-frontend.developermajd.com',
       ],
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       headers: "*",
