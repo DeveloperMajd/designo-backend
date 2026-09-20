@@ -176,7 +176,9 @@ docker exec designo-backend node_modules/.bin/strapi admin:reset-user-password \
 In place: secrets live in `.env` on the server and never in git; HTTPS everywhere with an
 HTTP-to-HTTPS redirect; a CORS allow-list; the contact-form protections above; a non-root
 container with a memory cap; production admin credentials that differ from the seed
-snapshot; and a query guard (`src/middlewares/query-guard.ts`).
+snapshot; unused public endpoints closed (Strapi's user registration, login and
+password-reset routes are revoked from the Public role on every boot, because the site has
+no user accounts); and a query guard (`src/middlewares/query-guard.ts`).
 
 The query guard mitigates [CVE-2026-27886](https://github.com/advisories/GHSA-rjg2-95x7-8qmx),
 which affects every Strapi 4 release. On the public Content API, an anonymous request can
