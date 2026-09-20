@@ -34,7 +34,9 @@ docker exec "$container" sh -c '
 ' < /dev/null > "$out.partial"
 
 mv "$out.partial" "$out"
-ln -sfn "$out" "$dest/latest.tgz"
+# Relative on purpose: an absolute target would not resolve when the folder is mounted
+# elsewhere (for example into a container during a restore).
+ln -sfn "$(basename "$out")" "$dest/latest.tgz"
 find "$dest" -name 'designo-*.tgz' -mtime +"$keep_days" -delete
 
 echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) backup ok: $out ($(du -h "$out" | cut -f1))"
