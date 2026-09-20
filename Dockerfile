@@ -23,6 +23,8 @@ RUN yarn cache clean
 
 # ---- runtime ----
 FROM node:20-bookworm-slim
+# Lets scripts/deploy.sh clean up this project's old images without touching others.
+LABEL org.opencontainers.image.title="designo-backend"
 ENV NODE_ENV=production
 WORKDIR /app
 

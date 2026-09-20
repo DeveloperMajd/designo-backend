@@ -1,0 +1,56 @@
+name: Deploy
+
+# Push to master -> the server pulls the new code, rebuilds the image and restarts the
+# container (scripts/deploy.sh), and the run fails if the backend does not come up healthy.
+on:
+  push:
+    branches: [master]
+  # Re-run a deploy from the Actions tab without needing a new commit.
+  workflow_dispatch:
+
+# Never run two deploys at once, and let a running one finish instead of cancelling it.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    steps:
+      # Until the three repository secrets exist this job is a no-op instead of a red X.
+      - name: Check deploy secrets
+        id: config
+        run: |
+          if [ -n "$SSH_HOST" ] && [ -n "$SSH_USER" ] && [ -n "$SSH_PRIVATE_KEY" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Deploy skipped: add the SSH_HOST, SSH_USER and SSH_PRIVATE_KEY repository secrets to enable it."
+          fi
+
+      - name: Configure SSH
+        if: steps.config.outputs.ready == 'true'
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      # The server keeps its own clone in /opt/apps/designo; this tells it to fetch and
+      # redeploy rather than shipping code from the runner.
+      - name: Deploy over SSH
+        if: steps.config.outputs.ready == 'true'
+        run: |
+          ssh -i ~/.ssh/deploy_key "$SSH_USER@$SSH_HOST" 'bash -s' <<'REMOTE'
+            set -euo pipefail
+            cd /opt/apps/designo
+            git fetch origin master
+            git reset --hard origin/master
+            bash scripts/deploy.sh
+          REMOTE
