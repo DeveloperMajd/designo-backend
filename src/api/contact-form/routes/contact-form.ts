@@ -6,7 +6,7 @@ export default {
       handler: "contact-form.send",
       config: {
         policies: [],
-        middlewares: [],
+        middlewares: ["api::contact-form.rate-limit"],
       },
     },
   ],

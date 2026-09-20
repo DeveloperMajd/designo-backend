@@ -1,4 +1,6 @@
 import { Context } from "koa";
+import nodemailer from "nodemailer";
+import { buildAdminMail, buildUserMail, parseContact } from "../lib/contact";
 
 // Extend the Request interface to include the 'body' property
 declare module "koa" {
@@ -12,59 +14,43 @@ declare module "koa" {
   }
 }
 
-import nodemailer from "nodemailer";
+let transporter: nodemailer.Transporter | undefined;
 
-export default {
-  async send(ctx: Context) {
-    const { name, email, phone, message } = ctx.request.body;
-
-    if (!name || !email || !phone || !message) {
-      return ctx.badRequest("All fields are required");
-    }
-
-    const transporter = nodemailer.createTransport({
+const getTransporter = () => {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.SMTP_USERNAME,
         pass: process.env.SMTP_PASSWORD,
       },
     });
+  }
+  return transporter;
+};
 
-    const adminMailOptions = {
-      from: email,
-      to: process.env.SMTP_USERNAME,
-      subject: "New Contact Form Submission",
-      html: `
-        <h3>New Contact Submission</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Message:</strong><br/>${message}</p>
-      `,
-    };
+export default {
+  async send(ctx: Context) {
+    const { value: contact, error } = parseContact(ctx.request.body);
+    if (!contact) {
+      return ctx.badRequest(error);
+    }
 
-    const userMailOptions = {
-      from: process.env.SMTP_USERNAME,
-      to: email,
-      subject: "Thanks for contacting us!",
-      html: `
-        <h3>Hi ${name},</h3>
-        <p>Thanks for reaching out! We’ve received your message and will get back to you soon.</p>
-        <hr />
-        <p><strong>Your message:</strong></p>
-        <p>${message}</p>
-      `,
-    };
+    const inbox = process.env.SMTP_USERNAME;
+    if (!inbox || !process.env.SMTP_PASSWORD) {
+      strapi.log.error("Contact form: SMTP_USERNAME / SMTP_PASSWORD are not set.");
+      return ctx.internalServerError("Failed to send to admin.");
+    }
 
     try {
-      await transporter.sendMail(adminMailOptions);
+      await getTransporter().sendMail(buildAdminMail(contact, inbox));
     } catch (error) {
       strapi.log.error("Admin email sending error:", error);
       return ctx.internalServerError("Failed to send to admin.");
     }
 
     try {
-      await transporter.sendMail(userMailOptions);
+      await getTransporter().sendMail(buildUserMail(contact, inbox));
     } catch (error) {
       strapi.log.error("User email sending error:", error);
       return ctx.badRequest("Your email address appears to be invalid.");
