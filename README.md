@@ -176,13 +176,22 @@ docker exec designo-backend node_modules/.bin/strapi admin:reset-user-password \
 In place: secrets live in `.env` on the server and never in git; HTTPS everywhere with an
 HTTP-to-HTTPS redirect; a CORS allow-list; the contact-form protections above; a non-root
 container with a memory cap; production admin credentials that differ from the seed
-snapshot.
+snapshot; and a query guard (`src/middlewares/query-guard.ts`).
+
+The query guard mitigates [CVE-2026-27886](https://github.com/advisories/GHSA-rjg2-95x7-8qmx),
+which affects every Strapi 4 release. On the public Content API, an anonymous request can
+filter through a public relation (for example menus to menu items) onto the admin-owned
+`createdBy` / `updatedBy` relations and use the result as a yes/no oracle on admin fields
+such as reset tokens and password hashes. The website never queries those relations, so
+the guard rejects any `/api` request that mentions them, or the raw `where` parameter,
+with a `400`.
 
 Known limitations:
 
 - Node 20 has reached end of life, and Strapi 4.20 is behind the current Strapi releases.
-  Strapi 4 requires Node 18 to 20, so moving on means migrating to Strapi 5, a larger
-  piece of work that is not done yet.
+  The CVE above is only fixed upstream in Strapi 5.37 and later, so the guard is a
+  mitigation, not a cure. Moving on means migrating to Strapi 5 (and a newer Node), a
+  larger piece of work that is not done yet.
 - `/admin` is reachable from the internet, protected only by Strapi's own login.
 - SQLite on a single VM is a deliberate simplicity choice for a portfolio site. It has no
   redundancy beyond the backups above.

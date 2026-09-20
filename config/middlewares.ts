@@ -37,6 +37,7 @@ export default [
   "strapi::poweredBy",
   "strapi::logger",
   "strapi::query",
+  "global::query-guard",
   "strapi::body",
   "strapi::session",
   "strapi::favicon",
