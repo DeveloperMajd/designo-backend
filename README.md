@@ -8,9 +8,9 @@ API to the [Next.js frontend](https://github.com/DeveloperMajd/designo-frontend)
 
 ## What it provides
 
-- **Page** collection: a slug, a title and a dynamic zone of 12 reusable components
-  (banners, project grids, locations, contact form, ...). The frontend renders whatever
-  the editor puts in the zone.
+- **Page** collection: a slug, a title and a dynamic zone of reusable components
+  (banners, project grids, locations, contact form, ...). The frontend maps each
+  component to a React section and renders them in the order the editor chose.
 - **Label**, **Contact** (single type) and menus (`strapi-plugin-menus`).
 - `POST /api/contact-form/send`: sends the contact-form email through Gmail. It
   validates every field, HTML-escapes what it puts in the emails, uses `Reply-To`
