@@ -62,7 +62,8 @@ export default ({ strapi }: { strapi: Strapi }) => {
      * delete, hence the Query Engine.
      */
     async purgeExpired() {
-      const days = Number(process.env.CONTACT_RETENTION_DAYS ?? 180);
+      const configured = process.env.CONTACT_RETENTION_DAYS;
+      const days = configured ? Number(configured) : 180;
       // A typo here must not turn into "delete everything": 0, negative or NaN skips the run.
       if (!Number.isFinite(days) || days < 1) {
         strapi.log.warn(`Contact form: CONTACT_RETENTION_DAYS=${process.env.CONTACT_RETENTION_DAYS} is not a positive number; nothing deleted.`);
