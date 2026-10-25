@@ -1,5 +1,4 @@
 import type { Strapi } from "@strapi/strapi";
-import nodemailer from "nodemailer";
 import { buildAdminMail, buildUserMail, type ContactInput } from "../lib/contact";
 
 const SUBMISSION = "api::contact-form.contact-submission";
@@ -7,22 +6,13 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 type NotificationStatus = "pending" | "sent" | "failed";
 
-const describe = (error: unknown) =>
+const errorMessage = (error: unknown) =>
   error instanceof Error ? error.message : String(error);
 
 export default ({ strapi }: { strapi: Strapi }) => {
-  let transporter: nodemailer.Transporter | undefined;
-
-  const getTransporter = () => {
-    transporter ??= nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.SMTP_USERNAME,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    });
-    return transporter;
-  };
+  // Strapi's email plugin, configured with the nodemailer provider in config/plugins.ts.
+  const sendMail = (mail: ReturnType<typeof buildAdminMail> | ReturnType<typeof buildUserMail>) =>
+    strapi.plugin("email").service("email").send(mail);
 
   const setNotificationStatus = (id: number, notificationStatus: NotificationStatus) =>
     strapi.entityService.update(SUBMISSION, id, { data: { notificationStatus } });
@@ -49,20 +39,20 @@ export default ({ strapi }: { strapi: Strapi }) => {
         }
 
         try {
-          await getTransporter().sendMail(buildAdminMail(contact, inbox));
+          await sendMail(buildAdminMail(contact, inbox));
           await setNotificationStatus(id, "sent");
         } catch (error) {
-          strapi.log.error(`Contact form: emailing the inbox about submission ${id} failed: ${describe(error)}`);
+          strapi.log.error(`Contact form: emailing the inbox about submission ${id} failed: ${errorMessage(error)}`);
           await setNotificationStatus(id, "failed");
         }
 
         try {
-          await getTransporter().sendMail(buildUserMail(contact.email, inbox));
+          await sendMail(buildUserMail(contact.email, inbox));
         } catch (error) {
-          strapi.log.warn(`Contact form: the confirmation for submission ${id} was not sent: ${describe(error)}`);
+          strapi.log.warn(`Contact form: the confirmation for submission ${id} was not sent: ${errorMessage(error)}`);
         }
       } catch (error) {
-        strapi.log.error(`Contact form: notifying about submission ${id} failed: ${describe(error)}`);
+        strapi.log.error(`Contact form: notifying about submission ${id} failed: ${errorMessage(error)}`);
       }
     },
 

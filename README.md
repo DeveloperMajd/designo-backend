@@ -37,7 +37,8 @@ handles the contact form.
 
 `POST /api/contact-form/send` with `{ name, email, phone, message }` stores the message as
 a *Contact submission* and answers `200`; the site inbox is then emailed and the visitor
-gets a short confirmation, through Gmail. Storing first means no message is lost to an
+gets a short confirmation, through Gmail (Strapi's email plugin with the nodemailer
+provider, configured in `config/plugins.ts`). Storing first means no message is lost to an
 SMTP problem: each submission records its `notificationStatus` (`sent`, or `failed` when
 the inbox could not be emailed), so failed ones can be found in the admin panel.
 Submissions hold personal data, so a daily cron task deletes them once they are older than
@@ -88,7 +89,7 @@ Secrets go in `.env`; everything else is set in `docker-compose.prod.yml`. See
 | `PUBLIC_URL` | Public URL of the API, e.g. `https://api.designo.developermajd.com` |
 | `IS_PROXIED` | `true` behind a reverse proxy, so Strapi trusts `X-Forwarded-*` and sees real client IPs |
 | `CORS_ORIGINS` | Comma-separated frontend origins allowed by CORS (default `http://localhost:3000`). The server's own origin is always allowed, because the admin panel is served from it. |
-| `DATABASE_CLIENT`, `DATABASE_FILENAME` | `sqlite` and a path relative to the app root (Postgres also works, see `config/database.ts`) |
+| `DATABASE_CLIENT`, `DATABASE_FILENAME` | `sqlite` (default) and a path relative to the app root (default `.tmp/local.sqlite`). Postgres also works, see `config/database.ts` |
 | `SMTP_USERNAME`, `SMTP_PASSWORD` | Gmail account (app password) that sends the contact-form emails |
 | `CONTACT_RATE_LIMIT_MAX`, `CONTACT_RATE_LIMIT_WINDOW_MS`, `CONTACT_DAILY_CAP` | Contact-form limits |
 | `CONTACT_RETENTION_DAYS` | Days a contact submission is kept before the daily cleanup deletes it (default `180`) |

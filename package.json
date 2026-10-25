@@ -2,10 +2,10 @@
   "name": "designo-backend",
   "version": "0.1.0",
   "private": true,
-  "description": "A Strapi application",
+  "description": "Strapi CMS and REST API for the Designo agency website",
   "license": "MIT",
   "author": {
-    "name": "A Strapi developer"
+    "name": "DeveloperMajd"
   },
   "scripts": {
     "build": "strapi build",
@@ -14,27 +14,20 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "4.20.3",
     "@strapi/plugin-i18n": "4.20.3",
     "@strapi/plugin-users-permissions": "4.20.3",
-    "@strapi/provider-email-nodemailer": "^5.12.5",
+    "@strapi/provider-email-nodemailer": "4.20.3",
     "@strapi/strapi": "4.20.3",
     "better-sqlite3": "8.6.0",
-    "koa": "^2.16.1",
-    "nodemailer": "^6.10.1",
     "pg": "^8.13.3",
-    "pg-hstore": "^2.3.4",
-    "pgloader": "^1.1.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "5.3.4",
-    "strapi-phone-validator": "^0.3.2",
     "strapi-plugin-menus": "^1.6.1",
     "styled-components": "5.3.3"
   },
   "devDependencies": {
-    "@types/koa": "^2.15.0",
-    "@types/nodemailer": "^6.4.17"
+    "@types/koa": "^2.15.0"
   },
   "engines": {
     "node": ">=18.0.0 <=20.x.x",
