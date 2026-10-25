@@ -43,6 +43,9 @@ mail, it is defensive:
 - everything interpolated into the emails is HTML-escaped
 - mail is sent from the site inbox with the visitor's address in `Reply-To`, never as a
   spoofed `From`
+- the confirmation contains nothing the visitor wrote (no name, no message). The address
+  is unverified, so anyone can make the site email any inbox; with no attacker-controlled
+  text in it, that email is useless for spam or phishing
 - requests are limited per client IP (5 per 15 minutes) and globally (100 per day); the
   limit answers `429` with a `Retry-After` header. Limits are held in memory and reset when
   the container restarts.

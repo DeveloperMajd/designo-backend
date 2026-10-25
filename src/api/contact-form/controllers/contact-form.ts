@@ -50,7 +50,7 @@ export default {
     }
 
     try {
-      await getTransporter().sendMail(buildUserMail(contact, inbox));
+      await getTransporter().sendMail(buildUserMail(contact.email, inbox));
     } catch (error) {
       strapi.log.error("User email sending error:", error);
       return ctx.badRequest("Your email address appears to be invalid.");
