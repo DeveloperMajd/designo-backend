@@ -18,6 +18,7 @@ handles the contact form.
 | **Page** | collection | A slug, a title and a *dynamic zone*: an ordered list of reusable sections (banners, project grids, info highlights, locations, contact form, ...). The frontend maps each section to a React component, so editors can build and reorder pages without a code change. |
 | **Label** | collection | Small pieces of interface copy (for example "Contact us"). |
 | **Contact** | single | Address, phone, email and social links shown in the footer. |
+| **Contact submission** | collection | Every message sent with the contact form, and whether the site inbox was emailed about it. Admin panel only: it has no public API. |
 | **Menus** | plugin | Editable navigation, via `strapi-plugin-menus`. |
 
 ## API
@@ -28,14 +29,20 @@ handles the contact form.
 | `GET /api/labels` | public | Interface labels |
 | `GET /api/contact` | public | Contact details (single type) |
 | `GET /api/menus` | public | Menus and their items (`populate=items`) |
-| `POST /api/contact-form/send` | public, rate limited | Sends the contact-form email |
+| `POST /api/contact-form/send` | public, rate limited | Stores a contact-form message and emails it to the site inbox |
 | `GET /_health` | public | Returns `204` when the server is up |
 | `/admin` | login | Strapi admin panel |
 
 ### Contact form
 
-`POST /api/contact-form/send` with `{ name, email, phone, message }` emails the site
-inbox and sends the visitor a confirmation, through Gmail. Because it is public and sends
+`POST /api/contact-form/send` with `{ name, email, phone, message }` stores the message as
+a *Contact submission* and answers `200`; the site inbox is then emailed and the visitor
+gets a short confirmation, through Gmail. Storing first means no message is lost to an
+SMTP problem: each submission records its `notificationStatus` (`sent`, or `failed` when
+the inbox could not be emailed), so failed ones can be found in the admin panel.
+Submissions hold personal data, so a daily cron task deletes them once they are older than
+`CONTACT_RETENTION_DAYS` (default 180, about six months); a deleted submission can live on
+in the daily backups for about two more weeks. Because the endpoint is public and sends
 mail, it is defensive:
 
 - every field is required, must be a string and is length-limited; email and phone
@@ -84,6 +91,7 @@ Secrets go in `.env`; everything else is set in `docker-compose.prod.yml`. See
 | `DATABASE_CLIENT`, `DATABASE_FILENAME` | `sqlite` and a path relative to the app root (Postgres also works, see `config/database.ts`) |
 | `SMTP_USERNAME`, `SMTP_PASSWORD` | Gmail account (app password) that sends the contact-form emails |
 | `CONTACT_RATE_LIMIT_MAX`, `CONTACT_RATE_LIMIT_WINDOW_MS`, `CONTACT_DAILY_CAP` | Contact-form limits |
+| `CONTACT_RETENTION_DAYS` | Days a contact submission is kept before the daily cleanup deletes it (default `180`) |
 
 ## Deployment
 

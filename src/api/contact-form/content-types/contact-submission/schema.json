@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_submissions",
+  "info": {
+    "singularName": "contact-submission",
+    "pluralName": "contact-submissions",
+    "displayName": "Contact submission",
+    "description": "Messages sent with the website's contact form. Not exposed on the public API."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "email": {
+      "type": "email",
+      "required": true,
+      "maxLength": 254
+    },
+    "phone": {
+      "type": "string",
+      "required": true,
+      "maxLength": 30
+    },
+    "message": {
+      "type": "text",
+      "required": true,
+      "maxLength": 2000
+    },
+    "notificationStatus": {
+      "type": "enumeration",
+      "enum": ["pending", "sent", "failed"],
+      "default": "pending"
+    }
+  }
+}
