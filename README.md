@@ -78,6 +78,19 @@ The admin panel is at <http://localhost:1337/admin>. Work on the copy rather tha
 `.tmp/data.db`, so the snapshot in git stays unchanged. The snapshot's admin account is not
 usable by anyone else; create your own with `yarn strapi admin:create-user`.
 
+## Tests
+
+```bash
+yarn test        # unit tests, then an integration suite that boots Strapi on a throwaway SQLite file
+yarn typecheck   # the server code and the tests
+```
+
+The unit tests cover the contact-form validation and emails, its rate limit and service
+(storage, notifications, retention) and the query guard. The integration suite drives the
+real endpoints over HTTP, with the email plugin stubbed so nothing is sent. CI
+(`.github/workflows/ci.yml`) runs both, plus a production build, on every pull request and
+before every deploy. The tests need Node 20.19 or newer.
+
 ## Configuration
 
 Secrets go in `.env`; everything else is set in `docker-compose.prod.yml`. See
@@ -112,8 +125,9 @@ flowchart LR
 
 ### Continuous deployment
 
-Pushing to `master` runs `.github/workflows/deploy.yml`, which SSHes into the server, pulls
-the new code and runs `scripts/deploy.sh`. That script rebuilds the image, restarts the
+Pushing to `master` runs `.github/workflows/deploy.yml`. It first runs the CI workflow
+(typecheck, tests, production build), and only if that passes does it SSH into the server,
+pull the new code and run `scripts/deploy.sh`. That script rebuilds the image, restarts the
 container and **fails the run if the backend does not become healthy** within three
 minutes. To enable it, add three repository secrets: `SSH_HOST`, `SSH_USER` and
 `SSH_PRIVATE_KEY`. Until they exist the workflow does nothing.
