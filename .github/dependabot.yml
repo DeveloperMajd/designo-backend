@@ -8,6 +8,9 @@ updates:
     groups:
       strapi:
         patterns: ["@strapi/*"]
+      # The admin panel needs react and react-dom at the same version.
+      react:
+        patterns: ["react", "react-dom"]
     ignore:
       # Strapi 5 is a migration with codemods, not a version bump.
       - dependency-name: "@strapi/*"
@@ -26,6 +29,9 @@ updates:
         update-types: ["version-update:semver-major"]
       # Vitest 5 needs Node 22, which Strapi 4 does not support.
       - dependency-name: vitest
+        update-types: ["version-update:semver-major"]
+      # Types for Koa 3; Strapi 4 runs on Koa 2.
+      - dependency-name: "@types/koa"
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
