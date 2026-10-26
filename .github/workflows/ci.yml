@@ -1,0 +1,32 @@
+name: CI
+
+# Typecheck, tests and a production build. Runs on pull requests, and as the first job of
+# every deploy (deploy.yml), so nothing reaches the server without passing it.
+on:
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      STRAPI_TELEMETRY_DISABLED: "true"
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          # Strapi 4.20 supports Node 18-20; the tests need 20.19+.
+          node-version: 20
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+      - run: yarn typecheck
+      - run: yarn test
+      # Also builds the admin panel, like the Docker image does.
+      - run: yarn build

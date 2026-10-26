@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "incremental": false
+  },
+  "include": [
+    "./**/*.ts",
+    "../config/**/*.ts",
+    "../src/**/*.ts",
+    "../src/**/*.json",
+    "../types/**/*.d.ts"
+  ],
+  "exclude": ["../src/admin/", "../src/plugins/**"]
+}

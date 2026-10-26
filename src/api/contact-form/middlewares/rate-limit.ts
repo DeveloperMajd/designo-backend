@@ -2,13 +2,20 @@ import type { Context, Next } from "koa";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
+// Unset, empty or invalid values fall back to the default, so a typo can neither switch a
+// limit off (NaN never counts as reached) nor block every request (0).
+const limit = (name: string, fallback: number) => {
+  const value = Number(process.env[name]);
+  return Number.isFinite(value) && value > 0 ? value : fallback;
+};
+
 // The contact form is public and every accepted request sends two emails from the
 // site's Gmail account, so it is limited per client IP and by a global daily cap.
 // State is in memory: it resets on restart, which is fine for a single container.
 export default () => {
-  const windowMs = Number(process.env.CONTACT_RATE_LIMIT_WINDOW_MS ?? 15 * 60 * 1000);
-  const maxPerWindow = Number(process.env.CONTACT_RATE_LIMIT_MAX ?? 5);
-  const maxPerDay = Number(process.env.CONTACT_DAILY_CAP ?? 100);
+  const windowMs = limit("CONTACT_RATE_LIMIT_WINDOW_MS", 15 * 60 * 1000);
+  const maxPerWindow = limit("CONTACT_RATE_LIMIT_MAX", 5);
+  const maxPerDay = limit("CONTACT_DAILY_CAP", 100);
 
   const hitsByIp = new Map<string, number[]>();
   let dailyHits: number[] = [];

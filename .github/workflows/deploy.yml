@@ -1,7 +1,8 @@
 name: Deploy
 
-# Push to master -> the server pulls the new code, rebuilds the image and restarts the
-# container (scripts/deploy.sh), and the run fails if the backend does not come up healthy.
+# Push to master -> CI (typecheck, tests, build) -> the server pulls the new code, rebuilds
+# the image and restarts the container (scripts/deploy.sh), and the run fails if the
+# backend does not come up healthy.
 on:
   push:
     branches: [master]
@@ -17,7 +18,11 @@ permissions:
   contents: read
 
 jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     env:
       SSH_HOST: ${{ secrets.SSH_HOST }}

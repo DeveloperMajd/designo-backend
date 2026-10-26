@@ -68,15 +68,15 @@ export const buildAdminMail = (contact: ContactInput, inbox: string) => ({
   `,
 });
 
-export const buildUserMail = (contact: ContactInput, inbox: string) => ({
+// Nothing proves the visitor owns the address they typed, so anyone can make the site send
+// this email to any inbox. It therefore contains nothing the sender wrote (no name, no
+// message): otherwise it would carry their spam or phishing text from the site's account.
+export const buildUserMail = (to: string, inbox: string) => ({
   from: inbox,
-  to: contact.email,
+  to,
   subject: "Thanks for contacting us!",
   html: `
-    <h3>Hi ${escapeHtml(contact.name)},</h3>
+    <h3>Hello,</h3>
     <p>Thanks for reaching out! We’ve received your message and will get back to you soon.</p>
-    <hr />
-    <p><strong>Your message:</strong></p>
-    <p>${multiline(contact.message)}</p>
   `,
 });

@@ -915,6 +915,57 @@ export interface ApiContactContact extends Schema.SingleType {
   };
 }
 
+export interface ApiContactFormContactSubmission extends Schema.CollectionType {
+  collectionName: 'contact_submissions';
+  info: {
+    singularName: 'contact-submission';
+    pluralName: 'contact-submissions';
+    displayName: 'Contact submission';
+    description: "Messages sent with the website's contact form. Not exposed on the public API.";
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }>;
+    email: Attribute.Email &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 254;
+      }>;
+    phone: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 30;
+      }>;
+    message: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 2000;
+      }>;
+    notificationStatus: Attribute.Enumeration<['pending', 'sent', 'failed']> &
+      Attribute.DefaultTo<'pending'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact-form.contact-submission',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact-form.contact-submission',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiLabelLabel extends Schema.CollectionType {
   collectionName: 'labels';
   info: {
@@ -1007,6 +1058,7 @@ declare module '@strapi/types' {
       'plugin::menus.menu': PluginMenusMenu;
       'plugin::menus.menu-item': PluginMenusMenuItem;
       'api::contact.contact': ApiContactContact;
+      'api::contact-form.contact-submission': ApiContactFormContactSubmission;
       'api::label.label': ApiLabelLabel;
       'api::page.page': ApiPagePage;
     }
