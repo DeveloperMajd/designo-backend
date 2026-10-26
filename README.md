@@ -75,8 +75,9 @@ DATABASE_CLIENT=sqlite DATABASE_FILENAME=.tmp/local.sqlite yarn dev
 ```
 
 The admin panel is at <http://localhost:1337/admin>. Work on the copy rather than on
-`.tmp/data.db`, so the snapshot in git stays unchanged. The snapshot's admin account is not
-usable by anyone else; create your own with `yarn strapi admin:create-user`.
+`.tmp/data.db`, so the snapshot in git stays unchanged. The snapshot holds content only, no
+user accounts: create an admin with `yarn strapi admin:create-user`, or register one on
+the first visit to `/admin`.
 
 ## Tests
 
@@ -151,6 +152,10 @@ docker compose -f docker-compose.prod.yml build
 docker compose -f docker-compose.prod.yml create    # creates the volumes
 # seed the volumes from .tmp/data.db and your uploads, then:
 docker compose -f docker-compose.prod.yml up -d
+# The snapshot has no admin, and Strapi lets the first visitor to /admin register one,
+# so create yours before the site is reachable:
+docker exec designo-backend node_modules/.bin/strapi admin:create-user \
+  --email you@example.com --password 'NewPassw0rd' --firstname You
 ```
 
 Then add a block to the Caddyfile (`reverse_proxy designo-backend:1337`) and reload Caddy.
@@ -201,8 +206,8 @@ docker exec designo-backend node_modules/.bin/strapi admin:reset-user-password \
 
 In place: secrets live in `.env` on the server and never in git; HTTPS everywhere with an
 HTTP-to-HTTPS redirect; a CORS allow-list; the contact-form protections above; a non-root
-container with a memory cap; production admin credentials that differ from the seed
-snapshot; unused public endpoints closed (Strapi's user registration, login and
+container with a memory cap; a seed snapshot without any user accounts; unused public
+endpoints closed (Strapi's user registration, login and
 password-reset routes are revoked from the Public role on every boot, because the site has
 no user accounts); and a query guard (`src/middlewares/query-guard.ts`).
 
