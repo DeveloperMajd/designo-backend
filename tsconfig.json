@@ -1,6 +1,10 @@
 {
   "extends": "@strapi/typescript-utils/tsconfigs/server",
   "compilerOptions": {
+    // Strapi's base config uses "Node" (node10) resolution, which TypeScript 6 deprecates.
+    // Node16 is its replacement and compiles this CommonJS project to the same output.
+    "module": "Node16",
+    "moduleResolution": "Node16",
     "outDir": "dist",
     "rootDir": "."
   },
